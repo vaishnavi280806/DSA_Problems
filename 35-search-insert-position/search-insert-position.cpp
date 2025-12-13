@@ -8,6 +8,6 @@ public:
             else if (target > nums[mid]) low = mid + 1;
             else high = mid - 1;
         }
-        return low + (high - low)/2;
+        return low;
     }
 };
