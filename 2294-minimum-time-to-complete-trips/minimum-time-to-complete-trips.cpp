@@ -2,7 +2,7 @@ class Solution {
     long long helper(vector<int>& time, long long t){
         long long trip = 0;
         for (int i  = 0; i < time.size(); i++){
-            trip += floor((double)t /(double)time[i]);
+            trip += t /time[i];
         }
         return trip;
     }
