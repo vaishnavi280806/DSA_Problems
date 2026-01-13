@@ -34,6 +34,7 @@ public:
         ListNode* cur = head;
         ListNode* prev = NULL;
         ListNode* nextnode;
+        ListNode* temp;
         bool flag = false;
         while (cur != NULL){
             ListNode* kthNode = findkthNode(cur, k);
@@ -43,7 +44,7 @@ public:
             }
             nextnode = kthNode->next;
             kthNode->next = NULL;
-            ListNode* temp = reverse(cur);
+            temp = reverse(cur);
             if (flag == false){
                 head = temp;
                 flag = true;
