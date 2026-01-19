@@ -4,7 +4,6 @@ public:
         if (s.size() != goal.size()) return false;
         string str = s + s;
         if (str.find(goal) != string::npos) return true;
-        return false;
-
+        else return false;
     }
 };
