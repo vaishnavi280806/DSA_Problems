@@ -12,10 +12,9 @@ public:
                 if (nums[l] == 0) zero--;
                 l++;
             }
-            ans = max(ans, r - l + 1 - zero);
+            ans = max(ans, r - l);
             
         }
-        if (zero == 1) return ans;
-        else return ans-1;
+        return ans;
     }
 };
