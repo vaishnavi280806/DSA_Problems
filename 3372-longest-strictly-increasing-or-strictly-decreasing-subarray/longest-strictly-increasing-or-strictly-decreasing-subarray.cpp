@@ -5,12 +5,10 @@ public:
         for (int i = 1; i < nums.size(); i++){
             if (nums[i] < nums[i - 1]){
                 dec++;
-                ans = max(ans, inc);
                 inc = 1;
             }
             else if (nums[i] > nums[i-1]){
                 inc++;
-                ans = max(ans, dec);
                 dec = 1;
             }
             else{
