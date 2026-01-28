@@ -1,20 +1,22 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
-        int l = 0, r = height.size() - 1, trap = 0, leftMax = height[0], rightMax = height[height.size() - 1];
-
-        while (l != r){
-            if (height[l] < height[r]){
-                trap += min(leftMax, rightMax) - height[l];
-                l++;  
-                if (height[l] > leftMax) leftMax = height[l];     
+        stack <int> stk;
+        int ans = 0;
+        for (int i = 0; i < height.size(); i++){
+            while (!stk.empty() && height[i] >= height[stk.top()]){
+                int tp = stk.top();
+                stk.pop();
+                if (!stk.empty()){
+                    int w = i - stk.top() - 1;
+                    int h = min(height[stk.top()], height[i]) - height[tp];
+                    ans += w*h;
+                    cout << i << tp << stk.top() << w << endl;
+                    cout << ans << endl;
+                }
             }
-            else{
-                trap += min(leftMax, rightMax) - height[r];
-                r--;
-                if (height[r] > rightMax) rightMax = height[r];
-            }
+            stk.push(i);
         }
-        return trap;
+        return ans;
     }
 };
