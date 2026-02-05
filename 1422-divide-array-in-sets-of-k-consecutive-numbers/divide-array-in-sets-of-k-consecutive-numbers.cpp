@@ -1,6 +1,7 @@
 class Solution {
 public:
     bool isPossibleDivide(vector<int>& nums, int k) {
+        if (nums.size() % k) return false;
         map <int, int> hash;
         for (int x : nums){
             hash[x]++;
