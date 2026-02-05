@@ -1,6 +1,7 @@
 class Solution {
 public:
     bool isNStraightHand(vector<int>& hand, int groupSize) {
+        if (hand.size() % groupSize) return false;
         map <int, int> hash;
         for (int x : hand){
             hash[x]++;
