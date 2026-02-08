@@ -3,8 +3,6 @@ public:
     long long countSubarrays(vector<int>& nums, long long k) {
         long long c = 0;
         deque<int> maxi, mini;
-        maxi.push_back(0);
-        mini.push_back(0);
         int l = 0;
         for (int r = 0; r < nums.size(); r++){
             while (!maxi.empty() && nums[maxi.back()] <= nums[r]) maxi.pop_back();
