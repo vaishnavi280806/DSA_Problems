@@ -18,7 +18,23 @@ class Solution {
     }
   public:
     int maximumPoints(vector<vector<int>>& mat) {
-        vector<vector<int>> dp(mat.size() + 1, vector<int> (4, -1));
-        return helper(mat.size() - 1, 3, mat, dp);
+        int n = mat.size();
+        vector<vector<int>> dp(n, vector<int> (4, -1));
+        
+        dp[0][0] = max(mat[0][1], mat[0][2]);
+        dp[0][1] = max(mat[0][0], mat[0][2]);
+        dp[0][2] = max(mat[0][0], mat[0][1]);
+        dp[0][3] = max(mat[0][0], max(mat[0][1], mat[0][2]));
+        
+        for (int i = 1; i < n; i++){
+            for (int last = 0; last < 4; last++){
+                for (int j = 0; j <  3; j++){
+                    if (j != last){
+                        dp[i][last] = max(dp[i][last], mat[i][j] + dp[i-1][j]);
+                    }
+                }
+            }
+        }
+        return dp[n-1][3];
     }
 };
