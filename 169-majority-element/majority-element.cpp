@@ -1,13 +1,14 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        unordered_map<int, int> hash;
-        for (int i = 0; i < nums.size(); i++){
-            hash[nums[i]]++;
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        int l = 0;
+        for (int r = 0; r < n; r++){
+            if (nums[r] == nums[l]) continue;
+            if (r-l > n/2) return nums[l];
+            else l = r;
         }
-        for (auto it : hash){
-            if (it.second > nums.size()/2) return it.first;
-        }
-        return -1;
+        return nums[l];
     }
 };
