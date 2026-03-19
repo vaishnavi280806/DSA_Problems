@@ -33,5 +33,23 @@ public:
             } 
         }
         return *min_element(dp[n-1].begin(), dp[n-1].end());
+
+        vector<int> prev(n, 1e5);
+        for (int i = 0; i < n; i++){
+            vector<int> temp(n);
+            for (int j = 0; j < i+1; j++){
+                if (i == 0 && j == 0) temp[j] = triangle[i][j];
+                else{
+                    int way1 = 1e9, way2 = 1e9;
+                    if (i-1 >= 0){
+                        if (j < i) way1 = triangle[i][j] + prev[j];
+                        if (j-1 >= 0) way2 = triangle[i][j] + prev[j-1];
+                    }
+                    temp[j] = min(way1, way2);
+                }
+            } 
+            prev = temp;
+        }
+        return *min_element(prev.begin(), prev.end());
     }
 };
