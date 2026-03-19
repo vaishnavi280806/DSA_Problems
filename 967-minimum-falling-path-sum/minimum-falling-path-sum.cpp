@@ -12,14 +12,14 @@ class Solution {
 public:
     int minFallingPathSum(vector<vector<int>>& matrix) {
         int n = matrix.size();
-        vector<vector<int>> dp (n, vector<int> (n, -101));
+        //vector<vector<int>> dp (n, vector<int> (n, -101));
         /*int res = 1e9;
         for (int i = 0; i < n; i++){
             res = min(res, helper(n-1, i, matrix, n, dp));
         }
         return res;*/
 
-        for (int i = 0; i < n; i++){
+        /*for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++){
                 if (i == 0) dp[i][j] = matrix[i][j];
                 else{
@@ -32,6 +32,24 @@ public:
                 }
             }
         }
-        return *min_element(dp[n-1].begin(), dp[n-1].end());
+        return *min_element(dp[n-1].begin(), dp[n-1].end()); */
+
+        vector<int> prev(n, 1e5);
+        for (int i = 0; i < n; i++){
+            vector<int> temp(n);
+            for (int j = 0; j < n; j++){
+                if (i == 0) temp[j] = matrix[i][j];
+                else{
+                    int ld = 1e5, rd = 1e5, up = 1e5;
+                    if (i-1 >= 0 && j-1 >= 0) ld = matrix[i][j] + prev[j-1];
+                    if (i-1 >= 0 && j+1 < n) rd = matrix[i][j] + prev[j+1];
+                    if (i-1 >=0) up = matrix[i][j] + prev[j];
+
+                    temp[j] =  min(min(ld, rd), up);
+                }
+            }
+            prev = temp;
+        }
+        return *min_element(prev.begin(), prev.end());
     }
 };
