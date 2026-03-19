@@ -8,6 +8,7 @@ class Solution {
 
         return dp[i][j] = min(way1, way2);
     }
+   
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
         int n = triangle.size();
@@ -17,5 +18,20 @@ public:
             res = min(res, helper(n-1, i, triangle, dp));
         }
         return res;
+
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < n; j++){
+                if (i == 0 && j == 0) dp[i][j] = triangle[i][j];
+                else{
+                    int way1 = 1e9, way2 = 1e9;
+                    if (j <= i){
+                        way1 = triangle[i][j] + dp[i-1][j];
+                        way2 = triangle[i][j] + dp[i-1][j-1];
+                    }
+                    dp[i][j] = min(way1, way2);
+                }
+            } 
+        }
+        return dp[n-1][n-1];
     }
 };
