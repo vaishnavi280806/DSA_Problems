@@ -1,14 +1,13 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        int n = nums.size();
-        int l = 0;
-        for (int r = 0; r < n; r++){
-            if (nums[r] == nums[l]) continue;
-            if (r-l > n/2) return nums[l];
-            else l = r;
+        int num = nums[0];
+        int cnt = 0;
+        for (int i = 0; i < nums.size(); i++){
+            if (nums[i] == num) cnt++;
+            else cnt--;
+            if (cnt == 0 && i+1 < nums.size()) num = nums[i+1];
         }
-        return nums[l];
+        return num;
     }
 };
