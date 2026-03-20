@@ -15,10 +15,17 @@ public:
             if (arr[i] == 0) return i;
         }
         return -1;*/
-        int actual = accumulate(nums.begin(), nums.end(), 0);
+
+        /*int actual = accumulate(nums.begin(), nums.end(), 0);
         int req = nums.size();
         req = req * (req+1)/2;
-        return req - actual;
+        return req - actual;*/
+
+        int res = 0;
+        for (int i = 0; i <= nums.size(); i++) res ^= i;
+        for (int i = 0; i < nums.size(); i++) res ^= nums[i];
+
+        return res;
 
     }
 };
