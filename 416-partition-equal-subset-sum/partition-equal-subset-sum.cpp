@@ -7,7 +7,7 @@ public:
         int n = arr.size();
         vector<bool> prev(sum+1), temp(sum+1);
         prev[0] = temp[0] = true;
-        //prev[arr[0]] = true;
+        if (arr[0] <= sum) prev[arr[0]] = true;
         
         for (int i = 1; i < n; i++){
             for (int j = 1; j <= sum; j++){
