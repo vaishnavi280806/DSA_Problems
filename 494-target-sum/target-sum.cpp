@@ -4,13 +4,17 @@ class Solution {
             if (target == 0) return 1;
             return 0;
         }
-        int plus = helper(idx + 1, target - nums[idx], nums);
-        int minus = helper(idx + 1, target + nums[idx], nums);
+        int pick = 0;
+        if (nums[idx] <= target) pick = helper(idx + 1, target - nums[idx], nums);
+        int notpick = helper(idx + 1, target, nums);
 
-        return plus + minus;
+        return pick + notpick;
     }
 public:
     int findTargetSumWays(vector<int>& nums, int target) {
-        return helper(0, target, nums);
+        int total = accumulate(nums.begin(), nums.end(), 0) + target;
+        if (total % 2) return 0;
+        int n = nums.size();
+        return helper(0, total/2, nums);
     }
 };
