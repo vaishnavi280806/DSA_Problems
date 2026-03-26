@@ -24,7 +24,6 @@ public:
             }
             long long bottomSum = total - topSum;
             if (topSum == bottomSum) return true;
-            cout << topSum << " " << bottomSum << endl;
 
             long long diff = abs(topSum - bottomSum);
 
@@ -43,7 +42,6 @@ public:
                 else{
                     if (bottomSum > topSum){
                         if (i == m-2 && n != 1){
-                            cout << "hi";
                             if (grid[m-1][0] == diff || grid[m-1][n-1] == diff) return true;
                         }
                         else{
@@ -92,7 +90,7 @@ public:
                 }
                 else{
                     if (rightSum > leftSum){
-                        if (i == 0 && m != 1){
+                        if (i == n-2 && m != 1){
                             if (grid[0][n-1] == diff || grid[m-1][n-1] == diff) return true;
                         }
                         else{
