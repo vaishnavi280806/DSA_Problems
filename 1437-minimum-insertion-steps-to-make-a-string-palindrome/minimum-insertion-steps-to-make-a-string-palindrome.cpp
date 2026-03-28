@@ -13,7 +13,7 @@ public:
         //vector<vector<int>> dp(n, vector<int> (n, -1));
         //return helper(0, n-1, s, dp);
 
-        vector<vector<int>> dp(n+1, vector<int> (n+1, -1));
+        /*vector<vector<int>> dp(n+1, vector<int> (n+1, -1));
 
         for (int i = n; i >= 1; i--){
             for (int j = 1; j <= n; j++){
@@ -28,6 +28,25 @@ public:
                 }
             }
         }
-        return dp[1][n];
+        return dp[1][n];*/
+
+        vector<int> prev(n+1);
+        for (int i = n; i >= 1; i--){
+            vector<int> temp(n+1);
+            for (int j = 1; j <= n; j++){
+                if (j <= i) temp[j] = 0;
+                else{
+                    if (s[i-1] == s[j-1]){
+                        temp[j] = prev[j-1];
+                    }
+                    else{
+                        temp[j] = 1 + min(prev[j], temp[j-1]);
+                    }
+                }
+            }
+            prev = temp;
+        }
+
+        return prev[n];
     }
 };
