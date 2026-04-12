@@ -14,10 +14,10 @@ class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
-        vector<vector<int>> dp (n+1, vector<int> (2, -1));
+        //vector<vector<int>> dp (n+1, vector<int> (2, -1));
         //return helper(0, 1, prices, dp);
 
-        for (int idx = n; idx >= 0; idx--){
+        /*for (int idx = n; idx >= 0; idx--){
             for (int buy = 1; buy >= 0; buy--){
                 if (idx == n){
                     dp[idx][0] = 0;
@@ -35,6 +35,29 @@ public:
             }
         }
 
-        return dp[0][1];
+        return dp[0][1];*/
+
+        vector<int> prev(2, 0);
+        for (int idx = n; idx >= 0; idx--){
+            vector<int> temp(2, 0);
+            for (int buy = 1; buy >= 0; buy--){
+                if (idx == n){
+                    temp[0] = 0;
+                    temp[1] = 0;
+                    continue;
+                }
+                int profit = 0;
+                if (buy){
+                    profit = max(-prices[idx] + prev[0], prev[1]);
+                }
+                else{
+                    profit = max(prices[idx] + prev[1], prev[0]);
+                }
+                temp[buy] = profit;
+            }
+            prev = temp;
+        }
+
+        return prev[1];
     }
 };
