@@ -27,7 +27,7 @@ public:
         }
         return dp[0][0];*/
 
-        vector<int> prevA(n+1, 0);
+        /*vector<int> prevA(n+1, 0);
 
         for (int idx = n-1; idx >= 0; idx--){
             vector<int> temp(n+1, 0);
@@ -40,7 +40,17 @@ public:
             }
             prevA = temp;
         }
-        return prevA[0];
+        return prevA[0];*/
+
+        vector<int> dp(n, 1);
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < i; j++){
+                if (nums[i] > nums[j]){
+                    dp[i] = max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+        return *max_element(dp.begin(), dp.end());
         
     }
 };
