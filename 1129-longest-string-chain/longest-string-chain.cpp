@@ -5,7 +5,7 @@ class Solution {
     bool check(string word1, string word2){
         int n1 = word1.size();
         int n2 = word2.size();
-        if (abs(n1 - n2) != 1) return false;
+        if (n2 - n1 != 1) return false;
         int i = 0;
         int flag = 0;
         for (int j = 0; j < n2; j++){
