@@ -4,15 +4,13 @@ public:
         int n = nums.size();
         int q = queries.size();
         unordered_map <int, vector<int>> hash;
-        unordered_map <int, int> size;
         for (int i = 0; i < n; i++){
             hash[nums[i]].push_back(i);
-            size[nums[i]]++;
         }
         vector<int> res(q);
         for (int i = 0; i < q; i++){
             vector<int> &arr = hash[nums[queries[i]]];
-            int m = size[nums[queries[i]]];
+            int m = arr.size();
             if (m == 1){
                 res[i] = -1;
                 continue;
