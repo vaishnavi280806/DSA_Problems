@@ -14,7 +14,6 @@ public:
                 ans = max(ans, j-i);
                 j++;
             }
-            cout << j << " ";
         }
         return ans;
     }
