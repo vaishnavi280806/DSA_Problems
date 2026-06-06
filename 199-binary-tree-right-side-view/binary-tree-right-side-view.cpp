@@ -13,7 +13,7 @@ class Solution {
 public:
     vector<int> rightSideView(TreeNode* root) {
         if (!root) return {};
-        map<int, int> ans;
+        vector<int> ans(100, -101);
         queue<pair<TreeNode*, int>> q;
         q.push({root, 0});
 
@@ -29,7 +29,8 @@ public:
         }
         vector<int> res;
         for (auto x : ans){
-            res.push_back(x.second);
+            if (x == -101) break;
+            res.push_back(x);
         }
         return res;
     }
