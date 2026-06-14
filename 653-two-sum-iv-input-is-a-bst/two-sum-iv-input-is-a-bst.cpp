@@ -10,15 +10,48 @@
  * };
  */
 class Solution {
-    unordered_set <int> hash;
-    bool helper(TreeNode* root, int k){
-        if (!root) return false;
-        if (hash.count(k - root->val)) return true;
-        hash.insert(root->val);
-        return helper(root->right, k) || helper(root->left, k); 
+    void next(stack<TreeNode*>& stk){
+        TreeNode* node = stk.top();
+        stk.pop();
+        if (node->right){
+            TreeNode* cur = node->right;
+            while (cur){
+                stk.push(cur);
+                cur = cur->left;
+            }
+        }
+    }
+    void before(stack<TreeNode*>& stk){
+        TreeNode* node = stk.top();
+        stk.pop();
+        if (node->left){
+            TreeNode* cur = node->left;
+            while (cur){
+                stk.push(cur);
+                cur = cur->right;
+            }
+        }
     }
 public:
     bool findTarget(TreeNode* root, int k) {
-        return helper(root, k);
+        if (!root->left && !root->right) return false;
+        stack<TreeNode*> nexts;
+        stack<TreeNode*> befores;
+        TreeNode* cur = root;
+        while (cur){
+            nexts.push(cur);
+            cur = cur->left;
+        }
+        cur = root;
+        while (cur){
+            befores.push(cur);
+            cur = cur->right;
+        }
+        while (!nexts.empty() && !befores.empty() && nexts.top()->val < befores.top()->val){
+            if (nexts.top()->val + befores.top()->val == k) return true;
+            else if (nexts.top()->val + befores.top()->val > k) before(befores);
+            else next(nexts);
+        }
+        return false;
     }
 };
