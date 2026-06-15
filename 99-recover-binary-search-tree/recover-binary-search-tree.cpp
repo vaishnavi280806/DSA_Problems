@@ -10,67 +10,30 @@
  * };
  */
 class Solution {
-    TreeNode* next(stack<TreeNode*>& stk){
-        TreeNode* node = stk.top();
-        stk.pop();
-        if (node->right){
-            TreeNode* cur = node->right;
-            while (cur){
-                stk.push(cur);
-                cur = cur->left;
+    TreeNode* first;
+    TreeNode* mid;
+    TreeNode* last;
+    TreeNode* prev;
+    void helper(TreeNode* root){
+        if (!root) return;
+        helper(root->left);
+        if (prev && prev->val > root->val){
+            if (!first){
+                first = prev;
+                mid = root;
+            }
+            else{
+                last = root;
             }
         }
-        return node;
-    }
-    TreeNode* before(stack<TreeNode*>& stk){
-        TreeNode* node = stk.top();
-        stk.pop();
-        if (node->left){
-            TreeNode* cur = node->left;
-            while (cur){
-                stk.push(cur);
-                cur = cur->right;
-            }
-        }
-        return node;
+        prev = root;
+        helper(root->right);
     }
 public:
     void recoverTree(TreeNode* root) {
-        stack<TreeNode*> nexts;
-        stack<TreeNode*> befores;
-        TreeNode* cur = root;
-        while (cur){
-            nexts.push(cur);
-            cur = cur->left;
-        }
-        cur = root;
-        while (cur){
-            befores.push(cur);
-            cur = cur->right;
-        }
-        TreeNode* prev = next(nexts);
-        TreeNode* tar1;
-        TreeNode* tar2;
-        while(true){
-            cur = next(nexts);
-            if (prev->val > cur->val){
-                tar1 = prev;
-                break;
-            }
-            prev = cur;
-        }
-
-        prev = before(befores);
-        while(true){
-            cur = before(befores);
-            if (prev->val < cur->val){
-                tar2 = prev;
-                break;
-            }
-            prev = cur;
-        }
-        int x = tar1->val;
-        tar1->val = tar2->val;
-        tar2->val = x;
+        first = mid = last = prev = nullptr;
+        helper(root);
+        if (first && last) swap(first->val, last->val);
+        else swap(first->val, mid->val);
     }
 };
