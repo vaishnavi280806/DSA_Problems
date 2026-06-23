@@ -1,34 +1,30 @@
 class Solution {
   public:
     vector<int> dijkstra(int V, vector<vector<int>> &edges, int src) {
-        vector<vector<pair<int, int>>> adj(V);
-        for (auto it : edges){
-            int u = it[0];
-            int v = it[1];
-            int w = it[2];
-            adj[u].push_back({v, w});
-            adj[v].push_back({u, w});
+        vector<vector<pair<int, int>>>  graph(V);
+        
+        for (auto x : edges){
+            graph[x[0]].push_back({x[1], x[2]});
+            graph[x[1]].push_back({x[0], x[2]});
         }
-        vector<int> dist (V, INT_MAX);
+        
         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-        pq.push({0, src}); //dist, vertex
+        pq.push({0, src});
+        vector<int> dist(V, INT_MAX);
         dist[src] = 0;
         
         while (!pq.empty()){
-            int node = pq.top().second;
-            int dis = pq.top().first;
+            auto node = pq.top();
             pq.pop();
             
-            for (auto it : adj[node]){
-                int adjNode = it.first;
-                int wt = it.second;
-                if (dis + wt < dist[adjNode]){
-                    dist[adjNode] = dis + wt;
-                    pq.push({dist[adjNode], adjNode});
+            for (auto x : graph[node.second]){
+                if (node.first + x.second < dist[x.first]){
+                    dist[x.first] = node.first + x.second;
+                    pq.push({dist[x.first], x.first});
                 }
             }
         }
-        return dist;
         
+        return dist;
     }
 };
