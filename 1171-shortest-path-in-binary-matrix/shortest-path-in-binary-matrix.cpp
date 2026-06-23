@@ -20,6 +20,8 @@ public:
             int dis = node.first;
             q.pop();
 
+            if (cur.first == n-1 && cur.second == n-1) return dis;
+
             for (int i = 0; i < 8; i++){
                 int rr = dr[i] + cur.first;
                 int cc = dc[i] + cur.second;
