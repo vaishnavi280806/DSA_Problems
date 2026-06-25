@@ -1,15 +1,15 @@
-// User function template for C++
-
 class Solution {
   public:
     void floydWarshall(vector<vector<int>> &dist) {
-        int V = dist.size();
-        for (int k = 0; k < V; k++){
-            for (int i = 0; i < V; i++){
-                for (int j = 0; j < V; j++){
-                    if (dist[i][k] != 1e8 && dist[k][j] != 1e8){
-                        dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
-                    }
+        int n = dist.size();
+        
+        vector<vector<int>> temp;
+        
+        for (int i = 0; i < n; i++){
+            temp = dist;
+            for (int j = 0; j < n; j++){
+                for (int k = 0; k < n; k++){
+                    if (dist[j][i] != 1e8 && dist[i][k] != 1e8 && dist[j][i] + dist[i][k] < dist[j][k]) dist[j][k] = dist[j][i] + dist[i][k];
                 }
             }
         }
