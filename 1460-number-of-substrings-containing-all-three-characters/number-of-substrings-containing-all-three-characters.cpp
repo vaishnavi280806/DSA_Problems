@@ -1,12 +1,19 @@
 class Solution {
 public:
     int numberOfSubstrings(string s) {
-        vector <int> lastSeen = {-1, -1, -1};
-        int c = 0;
-        for (int r = 0; r < s.size(); r++){
-            lastSeen[s[r] - 'a'] = r;
-            c += 1 + min(min(lastSeen[0], lastSeen[1]), lastSeen[2]);
+        int n = s.size();
+        int l = 0;
+        int res = 0;
+        unordered_map<char, int> hash;
+        for (int r = 0; r < n; r++){
+            hash[s[r]]++;
+            while (hash.size() == 3){
+                res += n - r;
+                hash[s[l]]--;
+                if (hash[s[l]] == 0) hash.erase(s[l]);
+                l++;
+            }
         }
-        return c;
+        return res;
     }
 };
