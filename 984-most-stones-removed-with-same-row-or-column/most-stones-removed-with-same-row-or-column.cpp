@@ -1,36 +1,49 @@
-class Solution {
-    void dfs(int node, vector<vector<int>>& graph, vector<bool>& visited){
-        visited[node] = true;
+class DisjointSet {
+    public:
+        vector<int> rank, parent;
 
-        for (int it : graph[node]){
-            if (!visited[it]){
-                dfs(it, graph, visited);
-            }
+        DisjointSet(int n){
+            rank.resize(n, 0);
+            parent.resize(n);
+            for (int i = 0; i <n; i++) parent[i] = i;
         }
-    }
+
+        int findUPar(int node){
+            if (node == parent[node]) return node;
+            return parent[node] = findUPar(parent[node]);
+        }
+
+        void unionR(int u, int v){
+            int ulp_u = findUPar(u);
+            int ulp_v = findUPar(v);
+
+            if (ulp_u == ulp_v) return;
+            if (rank[ulp_u] < rank[ulp_v]) parent[ulp_u] = ulp_v;
+            else if (rank[ulp_v] < rank[ulp_u]) parent[ulp_v] = ulp_u;
+            else{
+                rank[ulp_u]++;
+                parent[ulp_v] = ulp_u;
+            }
+           
+        }
+};
+
+class Solution {
 public:
     int removeStones(vector<vector<int>>& stones) {
         int n = stones.size();
-        vector<vector<int>> graph(n);
-
+        DisjointSet ds(n);
         for (int i = 0; i < n; i++){
             for (int j = i+1; j < n; j++){
                 if (stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1]){
-                    graph[i].push_back(j);
-                    graph[j].push_back(i);
+                    ds.unionR(i, j);
                 }
             }
         }
-        vector<bool> visited(n);
-
         int comp = 0;
-        for (int i = 0; i < graph.size(); i++){
-            if (!visited[i]){
-                dfs(i, graph, visited);
-                comp++;
-            }
+        for (int i = 0; i < n; i++){
+            if (ds.findUPar(i) == i) comp++;
         }
-        cout << comp;
         return n - comp;
     }
 };
