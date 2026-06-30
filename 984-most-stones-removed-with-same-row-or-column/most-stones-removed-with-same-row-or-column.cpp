@@ -32,17 +32,22 @@ class Solution {
 public:
     int removeStones(vector<vector<int>>& stones) {
         int n = stones.size();
-        DisjointSet ds(n);
+        int maxR = 0;
+        int maxC = 0;
+        for (auto it : stones){
+            maxR = max(it[0], maxR);
+            maxC = max(it[1], maxC);
+        }
+        DisjointSet ds(maxR + maxC + 2);
+        unordered_set <int> hash;
         for (int i = 0; i < n; i++){
-            for (int j = i+1; j < n; j++){
-                if (stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1]){
-                    ds.unionR(i, j);
-                }
-            }
+            ds.unionR(stones[i][0], stones[i][1] + maxR + 1);
+            hash.insert(stones[i][0]);
+            hash.insert(stones[i][1] + maxR + 1);
         }
         int comp = 0;
-        for (int i = 0; i < n; i++){
-            if (ds.findUPar(i) == i) comp++;
+        for (int i = 0; i < maxR + maxC + 2; i++){
+            if (hash.count(i) && ds.findUPar(i) == i) comp++;
         }
         return n - comp;
     }
