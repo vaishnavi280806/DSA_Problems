@@ -7,19 +7,16 @@ public:
         vector<int> dr = {-1, 0, 0, 1};
         vector<int> dc = {0, -1, 1, 0};
 
-        priority_queue<pair<int, pair<int, int>>,
-                       vector<pair<int, pair<int, int>>>,
-                       greater<pair<int, pair<int, int>>>>
-            pq;
-        pq.push({health - grid[0][0], {0, 0}});
+        queue<pair<int, pair<int, int>>> q;
+        q.push({health - grid[0][0], {0, 0}});
         vector<vector<int>> dist(m, vector<int>(n, INT_MIN));
         dist[0][0] = health - grid[0][0];
 
-        while (!pq.empty()) {
-            int h = pq.top().first;
-            int r = pq.top().second.first;
-            int c = pq.top().second.second;
-            pq.pop();
+        while (!q.empty()) {
+            int h =q.front().first;
+            int r = q.front().second.first;
+            int c = q.front().second.second;
+            q.pop();
 
             if (r == m - 1 && c == n - 1 && h >= 1)
                 return true;
@@ -31,7 +28,7 @@ public:
                 if (rr < 0 || rr >= m || cc < 0 || cc >= n) continue;
                 if (h - grid[rr][cc] >= 1 && dist[rr][cc] < h - grid[rr][cc]) {
                     dist[rr][cc] = h - grid[rr][cc];
-                    pq.push({h - grid[rr][cc], {rr, cc}});
+                    q.push({h - grid[rr][cc], {rr, cc}});
                 }
             }
         }
