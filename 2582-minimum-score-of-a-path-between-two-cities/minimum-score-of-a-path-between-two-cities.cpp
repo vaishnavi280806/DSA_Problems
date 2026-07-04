@@ -8,30 +8,28 @@ public:
             graph[it[1]].push_back({it[0], it[2]});
         }
 
-        vector<int> dist(n+1, INT_MAX);
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-        pq.push({INT_MAX, 1});
+        queue<int> q;
+        vector<bool> visited(n+1, false);
+        q.push(1);
+        visited[1] = true;
+        int res = INT_MAX;
         
-        while (!pq.empty()){
-            int wt = pq.top().first;
-            int node = pq.top().second;
-            cout << node;
-            pq.pop();
+        while (!q.empty()){
+            int node = q.front();
+            q.pop();
 
             for (auto it : graph[node]){
                 int adjN = it.first;
                 int adjW = it.second;
 
-                if (adjW < wt && adjW < dist[adjN]){
-                    dist[adjN] = adjW;
-                    pq.push({adjW, adjN});
-                }
-                else if (adjW >= wt && wt < dist[adjN]){
-                    dist[adjN] = wt;
-                    pq.push({wt, adjN});
+                res = min(res, adjW);
+
+                if (!visited[adjN]){
+                    q.push(adjN);
+                    visited[adjN] = true;
                 }
             }
         }
-        return dist[n];
+        return res;
     }
 };
