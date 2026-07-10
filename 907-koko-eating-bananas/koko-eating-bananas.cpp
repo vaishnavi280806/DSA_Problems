@@ -2,7 +2,7 @@ class Solution {
     long long time(vector<int>& piles, int k){
         long long hours = 0;
         for (int i = 0; i < piles.size(); i++){
-            hours += ((long long)piles[i] + k - 1 )/k;
+            hours += ceil((double)piles[i]/k);
         }
         return hours;
     }
