@@ -16,6 +16,19 @@ class Solution {
     }
 public:
     string countAndSay(int n) {
-        return helper(n);
+        //return helper(n);
+        string s = "1#";
+        for (int i = 0; i < n-1; i++){
+            string res = "";
+            int prev = 0;
+            for (int i = 0; i < s.size() - 1; i++){
+                if (s[i] != s[i+1]){
+                    res += to_string(i - prev + 1) + s[i];
+                    prev = i+1;
+                }
+            }
+            s = res + '#';
+        }
+        return s.substr(0, s.size() - 1);
     }
 };
