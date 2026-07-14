@@ -1,19 +1,20 @@
 class Solution {
-    int helper(int idx, int W, vector<int>& val, vector<int>& wt, vector<vector<int>>& dp){
+    int helper(int idx, int cap, vector<int>& val, vector<int>& wt, vector<vector<int>>& dp){
         if (idx == 0){
-            return (W / wt[0]) * val[0];
+            return cap/wt[0] * val[0];
         }
-        if (dp[idx][W] != -1) return dp[idx][W];
-        int pick = 0;
-        if (wt[idx] <= W) pick = val[idx] + helper(idx, W - wt[idx], val, wt, dp);
-        int notpick = helper(idx - 1, W, val, wt, dp);
+        if (dp[idx][cap] != -1) return dp[idx][cap];
         
-        return dp[idx][W] = max(pick, notpick);
+        int pick = 0;
+        if (cap >= wt[idx]) pick = val[idx] + helper(idx, cap - wt[idx], val, wt, dp);
+        int notpick = helper(idx-1, cap, val, wt, dp);
+        
+        return dp[idx][cap] = max(pick, notpick);
     }
   public:
-    int knapSack(vector<int>& val, vector<int>& wt, int W) {
+    int knapSack(vector<int>& val, vector<int>& wt, int capacity) {
         int n = val.size();
-        vector<vector<int>> dp(n, vector<int> (W+1, -1));
-        return helper(n-1, W, val, wt, dp);
+        vector<vector<int>> dp(n, vector<int> (capacity+1, -1));
+        return helper(n-1, capacity, val, wt, dp);
     }
 };
