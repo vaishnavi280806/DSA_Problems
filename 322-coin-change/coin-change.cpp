@@ -1,36 +1,20 @@
 class Solution {
-    /*long long helper(int idx, int amt, vector<int>& coins, vector<vector<int>>& dp){
-        if (idx == 0){
-            if (amt % coins[0] == 0) return amt / coins[0];
-            return INT_MAX;
-        };
+    int helper(int idx, int amt, vector<int>& coins, vector<vector<int>>& dp){
+        if(amt == 0) return 0;
+        if (amt < 0 || idx < 0) return 1e9;
         if (dp[idx][amt] != -1) return dp[idx][amt];
-        long long pick = INT_MAX;
-        if (coins[idx] <= amt) pick = 1 + helper(idx, amt - coins[idx], coins, dp);
-        long long notpick = helper(idx - 1, amt, coins, dp);
+
+        long long pick = 1 + helper(idx, amt - coins[idx], coins, dp);
+        long long notpick = helper(idx-1, amt, coins, dp);
 
         return dp[idx][amt] = min(pick, notpick);
-    }*/
+    }
 public:
     int coinChange(vector<int>& coins, int amount) {
         int n = coins.size();
-        vector<vector<int>> dp (n, vector<int> (amount+1, 0));
-        //int ans = helper(n-1, amount, coins, dp);
-        for (int i = 0; i < amount+1; i++){
-            if (i % coins[0] == 0) dp[0][i] =  i / coins[0];
-            else dp[0][i] = INT_MAX;
-        }
-        
-        for (int i = 1; i < n; i++){
-            for (int j = 1; j < amount+1; j++){
-                long long pick = INT_MAX;
-                if (coins[i] <= j &&  dp[i][j - coins[i]] != INT_MAX) pick = 1 + dp[i][j - coins[i]];
-                long long notpick = dp[i - 1][j];
-
-                dp[i][j] = min(pick, notpick);
-            }
-        }
-        if (dp[n-1][amount] == INT_MAX) return -1;
-        return dp[n-1][amount];
+        vector<vector<int>> dp(n, vector<int> (amount+1, - 1));
+        int res = helper(n-1, amount, coins, dp);
+        if (res == 1e9) return -1;
+        return res;
     }
 };
