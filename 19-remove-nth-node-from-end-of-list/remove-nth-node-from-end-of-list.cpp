@@ -13,17 +13,16 @@ public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
         ListNode* dummy = new ListNode();
         dummy->next = head;
-        ListNode* lead = dummy;
-        while (n > 0){
+        ListNode* lead;
+        lead = dummy;
+        while (n--){
             lead = lead->next;
-            n--;
         }
         ListNode* lag = dummy;
         while (lead != NULL && lead->next != NULL){
-            lag = lag->next;
             lead = lead->next;
+            lag = lag->next;
         }
-
         if (lag->next != NULL) lag->next = lag->next->next;
         return dummy->next;
     }
